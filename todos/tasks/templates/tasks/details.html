@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<table>
+<tr><th>title</th><td>{{ todo.title }}</td></tr>
+<tr><th>description</th><td>{{ todo.description }}</td></tr>
+<tr><th>done</th><td>{{ todo.done }}</td></tr>
+
+</table>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <input type="submit" value="add">
+  </form>
+
+
+{% endblock %}

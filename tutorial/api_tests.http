@@ -1,0 +1,30 @@
+GET http://127.0.0.1:8000/snippets/
+Accept:application/json
+
+###
+
+GET http://127.0.0.1:8000/snippets/1
+
+
+###
+
+POST http://127.0.0.1:8000/snippets/
+Content-Type: application/json
+
+{
+  "code": "y=10"
+}
+
+###
+
+PUT http://127.0.0.1:8000/snippets/5
+Content-Type: application/json
+
+{
+  "id": 5,
+  "title": "",
+  "code": "y=10",
+  "linenos": false,
+  "language": "python",
+  "style": "nord"
+}

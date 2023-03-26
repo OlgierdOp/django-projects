@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1>{{post.title}}</h1>
+<small>Created: {{post.created}}</small>
+<a href="{% if post.datafile %}{{post.datafile.url}}{% endif %}" target="_blank">{{ post.datafile_name }}</a>
+<div class="row">
+  <div class="col-sm-12 col-md-6"><p>{{ post.content }}</p></div>
+  <div class="col-sm-12 col-md-6"><img src="{% if post.img %}{{post.img.url}}{% endif %}" width="100%"></div>
+</div>
+<div>
+
+</div>
+
+{% if user == post.author %}
+<div>
+  {% crispy form %}
+</div>
+{% endif %}
+{% endblock %}

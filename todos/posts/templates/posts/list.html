@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags%}
+
+{% block content %}
+
+<h1>Lista postów</h1>
+<ul>
+    {% for post in page_obj %}
+    <li><a href="{% url 'posts:details' post.id %}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
+
+{% include "common/includes/paginator.html" %}
+{% crispy form%}
+{% endblock %}

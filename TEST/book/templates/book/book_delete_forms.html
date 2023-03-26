@@ -1,0 +1,10 @@
+{% extends 'book_delete_forms.html' %}
+{% load crispy_forms_tags%}
+{%block content1%}
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form1|crispy }}
+    <button type='submit'> Delete selected book</button>
+</form>
+{%endblock%}

@@ -1,0 +1,9 @@
+# common
+django
+djangorestframework
+pygments
+
+# pip install -r requirements.txt
+# -r requirements.txt
+
+django-extensions

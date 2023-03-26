@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  Dostępne operacje:
+  <ul>
+  {% for op in operations %}
+    <li><a href="/calculus/{{ op }}/">{{ op }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

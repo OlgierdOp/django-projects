@@ -1,0 +1,13 @@
+<form method="POST">
+        {% csrf_token %}
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="{{ todo.title }}">
+
+        <label for="description">Description</label>
+{#        <input type="text" id="description" name="description" value="{{ todo.description }}">#}
+        <textarea name="description" id="description" cols=40 rows=10>{{ todo.description }}</textarea>
+        <label for="done">Done</label>
+        <input type="checkbox" id="done" name="done" {% if todo.done %}checked{% endif %}>
+
+        <input type="submit" value="add">
+</form>

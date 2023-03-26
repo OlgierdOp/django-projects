@@ -1,0 +1,14 @@
+{%extends 'shop/home.html'%}
+{%block content%}
+
+    {%for item in items%}
+
+    <div class = "item-div">
+        <img  class = "product-image" src="{{item.pic.url}}">
+        <p>{{item.name}}</p>
+        <p>{{item.price}}</p>
+        <p>{{item.description}}</p>
+
+    </div>
+    {%endfor%}
+{%endblock%}

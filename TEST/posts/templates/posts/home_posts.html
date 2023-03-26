@@ -1,0 +1,36 @@
+{% extends "posts/base3.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container">
+        <h3>Create Post</h3>
+        {% csrf_token %}
+        {%crispy form%}
+
+    </div>
+    <div class="container">
+        {%for post1 in posts%}
+        <ul>
+            <li>
+                <div>
+
+                        {{post1.title}}
+                       User:  {{post1.user}}
+                        Actual user: {{request.user}}
+                    <div>
+                        <a href="{% url 'edit_post' post1.id%}" style="display: inline-block; padding: 4px;">
+                            <button class="btn btn-primary" >Edit</button>
+                        </a>
+
+                        <a href="{% url 'delete_post' post1.id%}">
+                            <button class="btn btn-danger"> Delete</button>
+                        </a>
+                    </div>
+
+
+                </div>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+{% endblock content %}

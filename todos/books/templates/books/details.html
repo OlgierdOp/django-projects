@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  
+  <h1>{{ book.title}}</h1>
+  <h2>{{ book.author }}, publikacja: {{ book.year }}</h2>
+  <p>{{ book.description }}</p>
+  <div><img src="{% if book.cover %}{{book.cover.url}}{% endif %}" width="50%"></div>
+
+
+  <div>
+    {% crispy form %}
+  </div>
+
+{% endblock %}
