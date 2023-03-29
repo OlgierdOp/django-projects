@@ -1,0 +1,23 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+</head>
+<body>
+    <header class = "main-page-header">
+        <div class = "shop-name">
+        Our shop
+        </div>
+    </header>
+
+<div class ="main-page-text">
+    Welcome to our shop!
+</div>
+<div class = "link-to-main-page">
+    <a class ="links" href = "{% url 'home' %}">Checkout our products!</a>
+</div>
+</body>
+</html>
