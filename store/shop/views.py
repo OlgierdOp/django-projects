@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
-from .forms import ItemForm
-from .models import Item
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import CreateUserForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+
+from .forms import CreateUserForm, CustomAuthenticationForm
+from .forms import ItemForm
+from .models import Item, Cart
 
 
 # Create your views here.
@@ -30,7 +31,7 @@ def main_page(request):
 
 def login_page(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
@@ -39,7 +40,7 @@ def login_page(request):
                 login(request, user)
                 return redirect("/home")
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
     return render(request, 'shop/login_page.html', {'form': form})
 
 
@@ -52,3 +53,33 @@ def register_page(request):
             return redirect('login_page')
 
     return render(request, 'shop/register_page.html', {'form': form})
+
+
+@login_required(login_url='/login/')
+def buy(request, id):
+    item = Item.objects.get(id=id)
+    return render(request, "shop/buy.html", {'item': item})
+
+
+@login_required(login_url="/login/")
+def add_to_cart(request, id):
+    item = Item.objects.get(id=id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart.items.add(item)
+    return redirect('home')
+
+
+@login_required(login_url="/login/")
+def cart(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    items = cart.items.all()
+    total_cost = cart.total_cost()
+    return render(request, 'shop/cart.html', {'items': items, 'total_cost': total_cost})
+
+
+@login_required(login_url="/login/")
+def delete_item_from_cart(request, id):
+    cart = get_object_or_404(Cart, user=request.user)
+    item = get_object_or_404(Item, pk=id)
+    cart.items.remove(item)
+    return redirect('cart')

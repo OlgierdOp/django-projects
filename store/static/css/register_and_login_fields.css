@@ -1,0 +1,40 @@
+body {
+    text-align: center;
+    margin: 0;
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+}
+
+.fields_container {
+    height: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    margin: 0;
+    width: 750px;
+    border-left: 1px solid rgb(171, 176, 179);
+    border-right: 1px solid rgb(171, 176, 179);
+    box-sizing: border-box;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.5);
+
+    }
+
+.fields_container form {
+
+    padding-top: 100px;
+    padding-bottom: 20px;
+
+
+}
+input[type="text"], input[type="email"], input[type="password"]  {
+width: 300px;
+height: 30px;
+font-family: Roboto;
+font-size: 100%;
+}

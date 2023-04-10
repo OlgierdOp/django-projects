@@ -9,12 +9,18 @@
     <div class="item-name">
         <p>{{item.name}}</p>
     </div>
-    <div class="item-price"><p>{{item.price}}</p>
+    <div class="item-price"><p>{{item.price}}zł</p>
     </div>
-    <p>{{item.price}}</p>
+
     <div class="item-description">
         <p>{{item.description}}</p>
     </div>
+    <a href="{%url 'buy' item.id %}">
+        <button class='buy-button'>
+
+            Buy
+        </button>
+    </a>
 </div>
 {%endfor%}
 

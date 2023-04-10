@@ -1,14 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>register</title>
-</head>
-<body>
-<form method="POST">
-    {%csrf_token%}
-    {{form}}
-    <button type="submit">register</button>
-</form>
-</body>
-</html>
+{%extends 'shop/home.html'%}
+
+{%block navbar%}
+{%endblock%}
+{%block content%}
+<div class="wrapper">
+    <div class="fields_container">
+        <form method="POST">
+            {%csrf_token%}
+
+            <p>{{form.username}}</p>
+            <p>{{form.email}}</p>
+            <p>{{form.password1}}</p>
+            <p>{{form.password2}}</p>
+
+
+            <button class="happy-button" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+{%endblock%}

@@ -1,15 +1,22 @@
         body{
-        margin: 0px;
+        margin: 0;
+        padding: 0;
         }
 
         .item-div{
+        float: left;
         border: solid;
         border-color: black;
         border-width: 1px;
-        margin-top: 10px;
+        margin-top: 30px;
+        margin-left: 30px;a
         width: 300px;
         vertical-align: top;
         display: inline-block;
+        box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        font-family: Roboto;
+
         }
         .product-image{
         width: 300px;
@@ -22,14 +29,13 @@
         height: 100%;
         }
         .nav-wrapper {
+        float: left;
         display: inline-block;
-        border: solid;
-        border-width: 1px;
-        border-color: grey;
         vertical-align: top;
-        margin-top: 10px;
+        background-color: rgb(89, 103, 110);
         height: 100%;
         width: 150px;
+        box-shadow: 10px 0px 10px -10px rgba(0, 0, 0, 0.5);
         }
         .header{
         text-align: center;
@@ -37,19 +43,33 @@
         border: solid;
         border-width: 1px;
         border-color: grey;
+
         }
         .left-navigation-bar-options{
         text-align: left;
-        padding-left: 35px;
+        padding-left: 30px;
         font-size: 20px;
         text-decoration: none;
+
+        }
+        .filtering-options{
+        text-decoration: none;
+        font-family: Arial;
+        font-weight: bold;
+        color: white;
+        }
+        .filtering-options:hover{
+        text-decoration: underline;
         }
         .main-page-header{
-
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         font-family:
         text-align: center;
-        background-color: rgb(52, 100, 235);
+        background-color: rgb(69, 78, 82);
         padding: 20px;
+        box-shadow: 0 10px 10px -10px rgba(0,0,0,0.5);
         }
         .main-page-text{
         text-align: center;
@@ -63,6 +83,8 @@
         font-weight: bold;
         font-size: 40px;
         text-decoration: none;
+        margin-right: auto;
+
         }
          .link-to-main-page{
         font-family: Arial;
@@ -79,3 +101,7 @@
         transition: text-decoration 0.15s;
         text-decoration: underline;
         }
+        .item-name{
+        font-weight: bold;
+        }
+

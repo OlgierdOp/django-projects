@@ -5,15 +5,20 @@
 
 <div class="item-div">
     <img class="product-image" src="{{item.pic.url}}">
-    <div class = "item-name">
+    <div class="item-name">
         <p>{{item.name}}</p>
     </div>
-    <div class = "item-price"><p>{{item.price}}</p>
+    <div class="item-price"><p>{{item.price}}</p>
     </div>
-    <div class = "item-description">
+    <div class="item-description">
         <p>{{item.description}}</p>
     </div>
+    <a href="{%url 'buy' item.id %}">
+        <button class='buy-button'>
 
+            Buy
+        </button>
+    </a>
 </div>
 {%endfor%}
 {%endblock%}

@@ -1,8 +1,9 @@
-{%extends 'shop/home.html' %}
+{%extends 'shop/home.html'%}
 
-{%block products%}
-{%for item in items%}
+{%block navbar%}
+{%endblock%}
 
+{%block content%}
 <div class="item-div">
     <img class="product-image" src="{{item.pic.url}}">
     <div class="item-name">
@@ -13,12 +14,10 @@
     <div class="item-description">
         <p>{{item.description}}</p>
     </div>
-    <a href="{%url 'buy' item.id %}">
+    <a href="{%url 'add_to_cart' item.id %}">
         <button class='buy-button'>
-
-            Buy
+            Add to cart
         </button>
     </a>
 </div>
-{%endfor%}
 {%endblock%}

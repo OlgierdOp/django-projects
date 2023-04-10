@@ -1,0 +1,108 @@
+.happy-button{
+height: 40px;
+width: 90px;
+background-color: rgb(69, 78, 82);
+border: none;
+color: white;
+font-family: Roboto;
+font-weight: bold;
+font-size: 100%;
+border-radius: 20px;
+
+
+}
+.happy-button:hover{
+background-color: white;
+color: rgb(69, 78, 82);
+border: solid;
+border-width: 2px;
+border-color: rgb(69, 78, 82);
+transition: 0.15s;
+cursor: pointer;
+}
+.happy-button:activate{
+background-color: rgb(69, 78, 82);
+border: none;
+color: white;
+}
+
+
+.other_buttons{
+
+height: 40px;
+width: 90px;
+background-color: rgb(89, 103, 110);
+border: none;
+color: white;
+font-family: Roboto;
+font-weight: bold;
+font-size: 100%;
+border-radius: 20px;
+
+
+}
+.other_buttons:hover{
+background-color: white;
+color: rgb(69, 78, 82);
+border: solid;
+border-width: 2px;
+border-color: rgb(69, 78, 82);
+transition: 0.15s;
+cursor: pointer;
+
+}
+.other_buttons:activate{
+background-color: rgb(89, 103, 110);
+border: none;
+color: white;
+}
+.buy-button{
+background-color: rgb(9, 176, 56);
+padding: 7px;
+padding-left: 30px;
+padding-right: 30px;
+margin-bottom: 15px;
+
+border: none;
+border-radius: 20px;
+color: white;
+font-family: Roboto;
+font-weight: bold;
+font-size: 17px;
+margin-bottom: 10px;
+
+
+}
+.buy-button:hover{
+background-color: white;
+color: rgb(9, 176, 56);
+border: solid;
+border-color:  rgb(9, 176, 56);
+border-width: 2px;
+padding: 5px;
+padding-left: 30px;
+padding-right: 30px;
+
+}
+.delete-button {
+  background-color: rgb(255, 0, 0);
+  padding: 7px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.delete-button:hover {
+  background-color: white;
+  color: rgb(255, 0, 0);
+  border: 2px solid rgb(255, 0, 0);
+  padding: 5px 28px; /* Reduced padding */
+}

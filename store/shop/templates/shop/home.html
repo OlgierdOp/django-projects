@@ -5,18 +5,43 @@
     <meta charset="UTF-8">
     <title>Store</title>
     <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/register_and_login_fields.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/cart.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class = "main-page-header">
-    <a class = "shop-name" href="{% url 'main' %}">Our shop</a>
+<div class="main-page-header">
+
+    <a class="shop-name" href="{% url 'main' %}">Our shop</a>
+    {% if user.is_authenticated%}
+    <a href="{% url 'cart' %}">
+        <button class ="other_buttons">Cart</button>
+    </a>
+    <a href="{% url 'logout' %}">
+        <button class="other_buttons">Logout</button>
+    </a>
+    {%else%}
+    <a href="{% url 'login_page' %}">
+        <button class="other_buttons">Login</button>
+    </a>
+    <a href="{% url 'register_page' %}">
+        <button class="other_buttons">Register</button>
+    </a>
+    {%endif%}
+
 </div>
-<div class = "nav-wrapper">
-        <div class = "left-navigation-bar-options">
-        <p><a href="{% url 'home' %}">Home</a></p>
-        <p><a href="{% url 'men' %}">Mężczyzna</a></p>
-        <p><a href="{% url 'woman' %}">Kobieta</a></p>
-        </div>
+{%block navbar%}
+<div class="nav-wrapper">
+    <div class="left-navigation-bar-options">
+        <p><a class="filtering-options" href="{% url 'home' %}">Home</a></p>
+        <p><a class="filtering-options" href="{% url 'men' %}">Men</a></p>
+        <p><a class="filtering-options" href="{% url 'woman' %}">Woman</a></p>
+    </div>
 </div>
+{%endblock%}
 {%block products%}
 {%endblock%}
 {%block content%}

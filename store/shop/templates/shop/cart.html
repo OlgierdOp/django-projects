@@ -1,0 +1,36 @@
+{%extends 'shop/home.html'%}
+
+{%block navbar%}
+{%endblock%}
+{%block content%}
+<div class="cart_container_wrapper">
+
+    <div class="cart_container">
+        {%if items%}
+        {% for cart_item in items %}
+        <div class="cart-item">
+            <div class="cart-item-image">
+                <img src="{{ cart_item.pic.url }}">
+            </div>
+            <div class="cart-item-details">
+                <div class="cart-item-name">{{ cart_item.name }}</div>
+                <div class="cart-item-actions">
+                    <div class="cart-item-price">{{ cart_item.price }}zł</div>
+                    <a href="{% url 'delete_item_from_cart' cart_item.id %}">
+                        <button class="delete-button">Delete</button>
+                    </a>
+                    <button class="buy-button2">Buy</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        <p>Sum: {{total_cost}}</p>
+        {% else%}
+        <p>
+            Your cart is empty.
+            {%endif%}
+    </div>
+</div>
+{%endblock%}
