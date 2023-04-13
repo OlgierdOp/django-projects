@@ -17,6 +17,11 @@
 
     <a class="shop-name" href="{% url 'main' %}">Our shop</a>
     {% if user.is_authenticated%}
+    {%if admin_group in user.groups.all%}
+        <a href="{% url 'admin_panel' %}">
+            <button class="other_buttons">Admin</button>
+        </a>
+    {%endif%}
     <a href="{% url 'cart' %}">
         <button class ="other_buttons">Cart</button>
     </a>

@@ -6,17 +6,21 @@
 <div class="cart_container_wrapper">
 
     <div class="cart_container">
-        {%if items%}
-        {% for cart_item in items %}
+        {%if cart_items%}
+        {% for cart_item in cart_items %}
         <div class="cart-item">
             <div class="cart-item-image">
-                <img src="{{ cart_item.pic.url }}">
+                <img src="{{ cart_item.item.pic.url }}">
             </div>
             <div class="cart-item-details">
-                <div class="cart-item-name">{{ cart_item.name }}</div>
+                <div class="cart-item-name">{{ cart_item.item.name }}</div>
                 <div class="cart-item-actions">
-                    <div class="cart-item-price">{{ cart_item.price }}zł</div>
-                    <a href="{% url 'delete_item_from_cart' cart_item.id %}">
+                    <div class = "cart-item-price">
+                        Quantity: {{cart_item.quantity}}
+                    </div>
+                    <div class="cart-item-price">{{ cart_item.item.price }}zł</div>
+
+                    <a href="{% url 'delete_item_from_cart' cart_item.item.id %}">
                         <button class="delete-button">Delete</button>
                     </a>
                     <button class="buy-button2">Buy</button>
@@ -26,7 +30,7 @@
         {% endfor %}
 
 
-        <p>Sum: {{total_cost}}</p>
+        <p class = "cart-item-price">Sum: {{total_cost}}</p>
         {% else%}
         <p>
             Your cart is empty.

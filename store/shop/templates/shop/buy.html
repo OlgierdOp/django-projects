@@ -14,10 +14,14 @@
     <div class="item-description">
         <p>{{item.description}}</p>
     </div>
-    <a href="{%url 'add_to_cart' item.id %}">
-        <button class='buy-button'>
+    <form method="POST">
+        {%csrf_token%}
+        <input type="hidden" name="item_id" value="{{item.id}}">
+        {{form.as_p}}
+        <button type="submit" class='buy-button'>
             Add to cart
         </button>
-    </a>
+    </form>
+
 </div>
 {%endblock%}

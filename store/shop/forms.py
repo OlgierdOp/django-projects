@@ -32,3 +32,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
         self.fields['username'].widget.attrs['placeholder'] = "Username"
         self.fields['password'].widget.attrs['placeholder'] = "password"
+
+
+class AddToCartForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, initial=1, label='Quantity')

@@ -12,15 +12,21 @@ class Item(models.Model):
     def __str__(self): return f"{self.name}"
 
 
-
-
-
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(Item)
+    items = models.ManyToManyField(Item, through='CartItem')
 
     def total_cost(self):
-        return sum(cart_item.item.price * cart_item.item.quantity for cart_item in self.cart_item_set.all())
+        return sum(cart_item.item.price * cart_item.quantity for cart_item in self.cartitem_set.all())
 
     def __str__(self):
         return f"Cart: {self.user.username}"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"Cart Item: {self.item.name} (Quantity: {self.quantity})"
