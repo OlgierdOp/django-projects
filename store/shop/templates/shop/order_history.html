@@ -1,0 +1,45 @@
+{%extends 'shop/home.html'%}
+
+{%block navbar%}
+{%endblock%}
+{%block content%}
+<html class="html_order_history">
+<body class="body_order_history">
+<div class="order_history_cart_container_wrapper">
+
+    <div class="order_history_cart_container">
+        <p class="your_order"> Your order history:</p>
+        {%if user_orders%}
+        {% for order_with_items in orders_with_items %}
+        <h3>{{ order_with_items.order }}</h3>
+
+        {% for item in order_with_items.order_items %}
+        <div class="order_history_cart-item">
+            <div class="order_history_cart-item-image">
+                <img src="{{ item.item.pic.url }}">
+            </div>
+            <div class="order_history_cart-item-details">
+                <div class="order_history_cart-item-name">{{ item.name }}</div>
+                <div class="order_history_cart-item-actions ">
+                    <div class="order_history_cart-item-price">
+                        Quantity: {{item.quantity}}
+                    </div>
+                    <div class="order_history_cart-item-price">{{ item.price }}zł</div>
+
+
+                </div>
+
+            </div>
+        </div>
+        {%endfor%}
+        {% endfor %}
+        <p class="order_history_cart-item-price">Sum: {{item.total_cost}}</p>
+        {% else%}
+        <p>
+            You have not ordered anything
+            {%endif%}
+    </div>
+</div>
+</body>
+</html>
+{%endblock%}

@@ -1,0 +1,39 @@
+{%extends 'shop/home.html'%}
+
+{%block navbar%}
+{%endblock%}
+{%block content%}
+
+<div class="cart_container_wrapper">
+
+    <div class="cart_container">
+        <p class = "your_order"> Your Order:</p>
+        {%if order_items%}
+        {% for order_item in order_items %}
+        <div class="cart-item">
+            <div class="cart-item-image">
+                <img src="{{ order_item.item.pic.url }}">
+            </div>
+            <div class="cart-item-details">
+                <div class="cart-item-name">{{ order_item.item.name }}</div>
+                <div class="cart-item-actions">
+                    <div class="cart-item-price">
+                        Quantity: {{order_item.quantity}}
+                    </div>
+                    <div class="cart-item-price">{{ order_item.item.price }}zł</div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        {% endfor %}
+        <p class="cart-item-price">Sum: {{user_order.total_cost}}</p>
+        {% else%}
+        <p>
+            You have not ordered anything
+            {%endif%}
+    </div>
+</div>
+{%endblock%}

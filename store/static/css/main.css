@@ -105,3 +105,18 @@
         font-weight: bold;
         }
 
+        .message{
+        font-size: 50px;
+        color: red;
+        font-family: Roboto;
+        font-weight: bold;
+        }
+
+        .your_order{
+        font-size: 25px;
+        color: green;
+        font-family: Roboto;
+        font-weight: bold;
+        }
+
+

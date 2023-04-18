@@ -1,0 +1,20 @@
+{%extends 'shop/home.html'%}
+
+{%block navbar%}
+{%endblock%}
+{%block content%}
+{%if cart_items in cart%}
+    <div class="cart_container_wrapper">
+
+        <div class="cart_container">
+            <form method="post">
+                {% csrf_token %}
+                <button class="buy-button2" type="submit">
+                    Submit order
+                </button>
+            </form>
+        </div>
+    </div>
+{%else%}
+<p>You don't have any items in cart</p>
+{%endblock%}

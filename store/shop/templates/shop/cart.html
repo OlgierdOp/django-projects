@@ -3,6 +3,7 @@
 {%block navbar%}
 {%endblock%}
 {%block content%}
+
 <div class="cart_container_wrapper">
 
     <div class="cart_container">
@@ -15,7 +16,7 @@
             <div class="cart-item-details">
                 <div class="cart-item-name">{{ cart_item.item.name }}</div>
                 <div class="cart-item-actions">
-                    <div class = "cart-item-price">
+                    <div class="cart-item-price">
                         Quantity: {{cart_item.quantity}}
                     </div>
                     <div class="cart-item-price">{{ cart_item.item.price }}zł</div>
@@ -24,13 +25,19 @@
                         <button class="delete-button">Delete</button>
                     </a>
                     <button class="buy-button2">Buy</button>
+
                 </div>
+
             </div>
         </div>
+
         {% endfor %}
 
 
-        <p class = "cart-item-price">Sum: {{total_cost}}</p>
+        <p class="cart-item-price">Sum: {{total_cost}}</p>
+        <a href="{%url 'checkout'%}">
+            <button class="buy-button2">Checkout</button>
+        </a>
         {% else%}
         <p>
             Your cart is empty.
