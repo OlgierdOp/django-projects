@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item
+from .models import Item, OrderData
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
@@ -36,3 +36,10 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class AddToCartForm(forms.Form):
     quantity = forms.IntegerField(min_value=1, initial=1, label='Quantity')
+
+
+class OrderDataForm(forms.ModelForm):
+    class Meta:
+        model = OrderData
+        fields = ["name", 'last_name', 'delivery_address', 'email', 'phone_number', 'postal_code'
+                  ]

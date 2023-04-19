@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import CreateUserForm, CustomAuthenticationForm
+from .forms import CreateUserForm, CustomAuthenticationForm, OrderDataForm
 from .forms import ItemForm, AddToCartForm
 from .models import Item, Cart, CartItem, Order, OrderItem
 
@@ -127,15 +127,19 @@ def checkout(request):
     cart_items = cart.cartitem_set.all()
     total_cost = cart.total_cost()
     if request.method == "POST":
-        order = Order(user=request.user, total_cost=total_cost)
-        order.save()
 
+        order = Order(user=request.user, total_cost=total_cost)
+        form = OrderDataForm(request.POST)
+        order.save()
+        form.save()
         for cart_item in cart_items:
             order_item = OrderItem(order=order, item=cart_item.item, quantity=cart_item.quantity)
             order_item.save()
             cart_item.delete()
         return redirect("order_success")
-    return render(request, "shop/checkout.html", {"cart_items": cart_items, "cart": cart})
+    else:
+        form = OrderDataForm()
+        return render(request, "shop/checkout.html", {"cart_items": cart_items, "cart": cart, "form": form})
 
 
 @login_required(login_url="/login/")
