@@ -22,9 +22,8 @@ def user_counter():
 
 def sold_item_counter():
     sold_item = OrderItem.objects.all()
-    sold_items_counter = 0
-    for i in sold_item:
-        sold_items_counter += 1
+    every_sold_item = sold_item.aggregate(total=Sum('quantity'))
+    sold_items_counter = every_sold_item['total']
     return sold_items_counter
 
 

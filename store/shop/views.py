@@ -1,12 +1,13 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 
 from .forms import CreateUserForm, CustomAuthenticationForm, OrderDataForm
-from .forms import ItemForm, AddToCartForm
-from .models import Item, Cart, CartItem, Order, OrderItem
-
+from .forms import ItemForm, AddToCartForm, TagsForm
+from .models import Item, Cart, CartItem, Order, OrderItem, Tags
 from .services import item_counter, user_counter, sold_item_counter, sold_item_sum
 
 
@@ -15,11 +16,21 @@ def home(request):
     form = ItemForm()
     items = Item.objects.all()
     admin_group = Group.objects.get(name="Admin")
-    return render(request, 'shop/home_page_products.html', {'form': form, 'items': items, "admin_group": admin_group})
+    if request.method == "POST":
+        tags_form = TagsForm(request.POST)
+        if tags_form.is_valid():
+            selected_tags = tags_form.cleaned_data["tags"]
+            tag_names = ','.join(tag.name for tag in selected_tags)
+            return redirect(reverse('filtered_item', kwargs={'tag_names': tag_names}))
+    else:
+        tags_form = TagsForm()
+        return render(request, 'shop/home_page_products.html',
+                      {'form': form, 'items': items, "admin_group": admin_group, "tags_form": tags_form})
 
 
 def men_page(request):
     items = Item.objects.filter(gender="M")
+
     return render(request, 'shop/men_products.html', {'items': items})
 
 
@@ -108,17 +119,24 @@ def admin_panel(request):
     user = request.user
     admin_group = Group.objects.get(name="Admin")
 
-    if admin_group in user.groups.all():
-        users_number = user_counter()
-        items_number = item_counter()
-        sold_items_number = sold_item_counter()
-        sold_items_sum = sold_item_sum()
-        return render(request, "shop/admin_panel.html",
-                      {"users_number": users_number, "items_number": items_number,
-                       "sold_items_number": sold_items_number, "sold_items_sum": sold_items_sum})
-
+    if request.method == "POST":
+        form = ItemForm(request.POST)
+        form.save()
     else:
-        return render(request, "shop/access_denied.html")
+        if admin_group in user.groups.all():
+            form = ItemForm()
+            users_number = user_counter()
+            items_number = item_counter()
+            sold_items_number = sold_item_counter()
+            sold_items_sum = sold_item_sum()
+
+            return render(request, "shop/admin_panel.html",
+                          {"users_number": users_number, "items_number": items_number,
+                           "sold_items_number": sold_items_number, "sold_items_sum": sold_items_sum, "form": form})
+
+        else:
+
+            return render(request, "shop/access_denied.html")
 
 
 @login_required(login_url="/login/")
@@ -163,3 +181,14 @@ def order_history(request):
 
     return render(request, "shop/order_history.html",
                   {"orders_with_items": orders_with_items, "user_orders": user_orders})
+
+
+@login_required(login_url="/login/")
+def filtered_item(request, tag_names):
+    tag_name_list = tag_names.split(',')
+    items = Item.objects.all()
+    for tag_name in tag_name_list:
+        tag = Tags.objects.get(name=tag_name)
+        items = items.filter(tags=tag)
+
+    return render(request, "shop/filtered_item.html", {"items": items})

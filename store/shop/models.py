@@ -8,8 +8,16 @@ class Item(models.Model):
     price = models.IntegerField(null=True)
     gender = models.CharField(choices=[("F", "Female"), ("M", "Male")], max_length=100)
     pic = models.ImageField(upload_to='shop/images/', null=True)
+    tags = models.ManyToManyField('Tags')
 
     def __str__(self): return f"{self.name}"
+
+
+class Tags(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Cart(models.Model):
@@ -60,3 +68,4 @@ class OrderData(models.Model):
     postal_code = models.CharField(max_length=10)
     country = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
+

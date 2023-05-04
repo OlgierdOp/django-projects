@@ -16,7 +16,7 @@
         box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.5);
         text-align: center;
         font-family: Roboto;
-
+        position: relative; /* Added position */
         }
         .product-image{
         width: 300px;
@@ -119,4 +119,17 @@
         font-weight: bold;
         }
 
+        .tag-checkboxes {
+        display: inline-block;
+        margin-right: 10px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+        margin-top: 7px;
+        }
+
+        .tag-checkboxes input[type="checkbox"] {
+            margin-right: 5px;
+        }
 

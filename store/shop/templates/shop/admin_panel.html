@@ -1,10 +1,29 @@
-{%extends 'shop/home.html'%}
-{%block content%}
-<p>User count:{{users_number}}</p>
+{% extends 'shop/home.html' %}
 
-<p>Items listed:{{items_number}}</p>
-
-<p>Total sold items:{{sold_items_number}}</p>
-
-<p>Total sum of sold items:{{sold_items_sum}} zł</p>
-{%endblock%}
+{% block content %}
+<div class="grid-container">
+    <div class="grid-item blue">
+        <p>User count: {{ users_number }}</p>
+    </div>
+    <div class="grid-item red">
+        <p>Items listed: {{ items_number }}</p>
+    </div>
+    <div class="grid-item green">
+        <p>Total sold items: {{ sold_items_number }}</p>
+    </div>
+    <div class="grid-item purple">
+        <p>Total sum of sold items: {{ sold_items_sum }} zł</p>
+    </div>
+    <div>
+        <form method = "POST"></form>
+        {%csrf_token%}
+         <p>{{form.name}} </p>
+         <p>{{form.description}}</p>
+         <p>{{form.gender}}</p>
+         <p>{{form.price}}</p>
+         <p>{{form.pic}}</p>
+         <p>{{form.tags}}</p>
+        <button type = 'submit'>Add item</button>
+    </div>
+</div>
+{% endblock %}

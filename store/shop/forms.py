@@ -1,13 +1,17 @@
 from django import forms
-from .models import Item, OrderData
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.db.models import When, Case, Value, IntegerField
+
+from .models import Item, OrderData, Tags
 
 
 class ItemForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(queryset=Tags.objects.all())
+
     class Meta:
         model = Item
-        fields = ['name', 'description', 'gender']
+        fields = ['name', 'description', 'gender', 'price', 'pic', 'tags']
 
 
 class CreateUserForm(UserCreationForm):
@@ -41,5 +45,17 @@ class AddToCartForm(forms.Form):
 class OrderDataForm(forms.ModelForm):
     class Meta:
         model = OrderData
-        fields = ["name", 'last_name', 'delivery_address', 'email', 'phone_number', 'postal_code'
+        fields = ["name", 'last_name', 'delivery_address', 'email', 'phone_number', 'postal_code', "city", "country"
                   ]
+
+
+class TagsForm(forms.Form):
+    tags = forms.ModelMultipleChoiceField(queryset=Tags.objects.annotate(
+        custom_order=Case(
+            When(name="Men", then=Value(1)),
+            When(name="Woman", then=Value(2)),
+            default=Value(3),
+            outputfield=IntegerField()
+        )).order_by('custom_order', 'name'),
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'tag-checkboxes'}))
+

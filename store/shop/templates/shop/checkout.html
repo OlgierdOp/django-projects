@@ -3,21 +3,30 @@
 {%block navbar%}
 {%endblock%}
 {%block content%}
-    {%if cart_items%}
-        <div class="cart_container_wrapper">
+{%if cart_items%}
+<div class="cart_container_wrapper">
+    <div class="wrapper">
+        <div class="fields_container">
+            <form method="POST">
 
-            <div class="cart_container">
-                <form method="post">
+                {% csrf_token %}
+                <p>{{form.name}}</p>
+                <p>{{form.last_name}}</p>
+                <p>{{form.delivery_address}}</p>
+                <p>{{form.email}}</p>
+                <p>{{form.phone_number}}</p>
+                <p>{{form.postal_code}}</p>
+                <p>{{form.city}}</p>
+                <p>{{form.country}}</p>
 
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <button class="buy-button2" type="submit">
-                        Submit order
-                    </button>
-                </form>
-            </div>
+                <button class="buy-button2" type="submit">
+                    Submit order
+                </button>
+            </form>
         </div>
-    {%else%}
-    <p>You don't have any items in cart</p>
-    {%endif%}
+    </div>
+</div>
+{%else%}
+<p>You don't have any items in cart</p>
+{%endif%}
 {%endblock%}

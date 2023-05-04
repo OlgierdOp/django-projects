@@ -56,34 +56,62 @@ background-color: rgb(89, 103, 110);
 border: none;
 color: white;
 }
-.buy-button{
-background-color: rgb(9, 176, 56);
-padding: 7px;
-padding-left: 30px;
-padding-right: 30px;
-margin-bottom: 15px;
-
-border: none;
-border-radius: 20px;
-color: white;
-font-family: Roboto;
-font-weight: bold;
-font-size: 17px;
-margin-bottom: 10px;
-
-
+.item-div {
+  float: left;
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+  margin-top: 30px;
+  margin-left: 30px;
+  width: 300px;
+  vertical-align: top;
+  display: inline-block;
+  box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-family: Roboto;
+  position: relative; /* Added position */
 }
-.buy-button:hover{
-background-color: white;
-color: rgb(9, 176, 56);
-border: solid;
-border-color:  rgb(9, 176, 56);
-border-width: 2px;
-padding: 5px;
-padding-left: 30px;
-padding-right: 30px;
 
+.buy-button {
+  background-color: rgb(9, 176, 56);
+  padding: 7px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 15px;
+  vertical-align: center;
+  position: relative; /* Added position */
+  transition: background-color 0.15s, color 0.15s;
 }
+
+.buy-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent; /* Added transparent border */
+  border-radius: 20px; /* Added border-radius */
+}
+
+.buy-button:hover {
+  background-color: white;
+  color: rgb(9, 176, 56);
+}
+
+.buy-button:hover::before {
+  border-color: rgb(9, 176, 56); /* Changed border color on hover */
+  transition: border-color 0.15s;
+}
+
+
+
 .delete-button {
   background-color: rgb(255, 0, 0);
   padding: 7px;
@@ -105,4 +133,34 @@ padding-right: 30px;
   color: rgb(255, 0, 0);
   border: 2px solid rgb(255, 0, 0);
   padding: 5px 28px; /* Reduced padding */
+}
+
+.search-button{
+margin-top : 20px;
+height: 40px;
+width: 90px;
+background-color: rgb(69, 78, 82);
+border: none;
+color: white;
+font-family: Roboto;
+font-weight: bold;
+font-size: 100%;
+border-radius: 20px;
+
+
+}
+.search-button:hover{
+background-color: white;
+color: rgb(69, 78, 82);
+border: solid;
+border-width: 2px;
+border-color: rgb(69, 78, 82);
+transition: 0.15s;
+cursor: pointer;
+
+}
+.search-button:activate{
+background-color: rgb(69, 78, 82);
+border: none;
+color: white;
 }

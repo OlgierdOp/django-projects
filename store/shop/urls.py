@@ -19,4 +19,5 @@ urlpatterns = [
     path('checkout/', views.checkout, name="checkout"),
     path('order_success/', views.order_success, name="order_success"),
     path('order_history/', views.order_history, name="order_history"),
+    path('filtered_item/<str:tag_names>', views.filtered_item, name="filtered_item"),
 ]

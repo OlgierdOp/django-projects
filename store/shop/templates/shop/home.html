@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Store</title>
     <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/admin_panel.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/buttons.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/register_and_login_fields.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/cart.css' %}">
@@ -19,12 +20,15 @@
     <a class="shop-name" href="{% url 'main' %}">Our shop</a>
     {% if user.is_authenticated%}
     {%if admin_group in user.groups.all%}
-        <a href="{% url 'admin_panel' %}">
-            <button class="other_buttons">Admin</button>
-        </a>
+    <a href="{% url 'admin_panel' %}">
+        <button class="other_buttons">Admin</button>
+    </a>
     {%endif%}
+    <a href="{% url 'order_history' %}">
+        <button class="other_buttons">Order history</button>
+    </a>
     <a href="{% url 'cart' %}">
-        <button class ="other_buttons">Cart</button>
+        <button class="other_buttons">Cart</button>
     </a>
     <a href="{% url 'logout' %}">
         <button class="other_buttons">Logout</button>
@@ -45,6 +49,15 @@
         <p><a class="filtering-options" href="{% url 'home' %}">Home</a></p>
         <p><a class="filtering-options" href="{% url 'men' %}">Men</a></p>
         <p><a class="filtering-options" href="{% url 'woman' %}">Woman</a></p>
+        <div>
+        <form method="POST">
+            {%csrf_token%}
+            {%for tag in tags_form%}
+            {{tag}}
+            {%endfor%}
+            <button class = "search-button" type="submit">Search</button>
+        </form>
+        </div>
     </div>
 </div>
 {%endblock%}
