@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .fields{
+        display: inline-block;
+        }
+
+    </style>
+</head>
+<body>
+{%block content%}
+<div class='fields'>
+    <form method="POST">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button type="submit">SEND</button>
+    </form>
+</div>
+<a href='{%url  "logout"%}'>
+    <button>Logout</button>
+</a>
+{%endblock%}
+</body>
+</html>
