@@ -1,8 +1,16 @@
-{%extends 'main/home.html'%}
-{%block content%}
-<form method="POST">
-    {%csrf_token%}
-    {{form}}
-    <button type="submit">Login</button>
-</form>
-{%endblock%}
+{% extends 'main/home.html' %}
+{% block loggedIn %}
+{% endblock %}
+{% block content %}
+    <div class="login-fields-div">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Login</button>
+        </form>
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Register</button>
+        </form>
+    </div>
+{% endblock %}

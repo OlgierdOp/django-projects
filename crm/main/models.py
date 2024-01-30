@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 
-from crm import settings
+
+class CustomUserManager(UserManager):
+    pass
 
 
 class MyUser(AbstractUser):
