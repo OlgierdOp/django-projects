@@ -11,5 +11,5 @@ urlpatterns = [
     path('order/<str:id>', views.order, name="order"),
     path('register', views.register_view, name="register"),
     path('constructor_panel', views.constructor_panel_view, name="constructor_panel"),
-    path('client_messanger_view', views.client_messanger_view, name="client_messanger_view")
+    path('client_messanger_view', views.client_orders_panel, name="client_messanger_view")
 ]

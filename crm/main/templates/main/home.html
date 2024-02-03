@@ -6,58 +6,59 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'text.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'img.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="top">
-    {% block loggedIn %}
-
-
+    <img src="{% static 'main/img/logo_01-01.png' %}" class="logo">
+    <div class="spacer"></div> <!-- Dodatkowy kontener jako przestrzeń wypełniająca -->
+    {% if request.user.is_authenticated %}
     <div class='logged-in-div'>
-         {% if constructor_group in request.user.groups.all %}
+        <div class='logged-in-div-text'>Zalogowany jako: {{ request.user.username }}</div>
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button class='logout-button' type="submit">Logout</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+<div class='container'>
+    <div class='sidebar'>
+        {% if constructor_group in request.user.groups.all %}
+
             <form action="{% url 'constructor_panel' %}" method="POST">
                 {% csrf_token %}
-                <button type="submit">Constructor panel</button>
+                <button class = 'panel-button' type="submit">Panel Konstruktora</button>
             </form>
             {% endif %}
             {% if client_group in request.user.groups.all %}
             <form action="{% url 'client_messanger_view' %}" method="POST">
                 {% csrf_token %}
-                <button type="submit">Client panel</button>
+                <button class = 'panel-button' type="submit">Moje wiadomości</button>
             </form>
-            {% endif %} \
-        <div class='logged-in-div-text'>Logged in as</div>
-        <div class='logged-in-div-text'>{{ request.user.username }}</div>
-    </div>
-    {% endblock %}
-</div>
-<div class='container'>
-    <div class='sidebar'>
-        <button>
+            {% endif %}
 
-        </button>
     </div>
     <div class='content'>
-        <div class='main'>
+
             {% block content %}
+            <div class='main'>
+                <div class='fields'>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ order_form.as_p }}
+                        {{ message_form.as_p }}
+                        <button type="submit">SEND</button>
+                    </form>
+                </div>
 
-            <div class='fields'>
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">SEND</button>
-                </form>
             </div>
-            <form action="{% url 'logout' %}" method="POST">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
-
-
             {% endblock %}
-        </div>
+
     </div>
 </div>
 </body>

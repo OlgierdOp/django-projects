@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .forms import OrderForm, SendToConstructorForm, CustomUserCreationForm, OrderResponseForm
+from .forms import OrderForm, SendToConstructorForm, CustomUserCreationForm, OrderResponseForm, MessageForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
-from .models import Order
+from .my_scripts import check_user_group
+from .models import Order, MyUser
 
 
 @login_required(login_url="login_page")
@@ -14,32 +14,52 @@ def home(request):
     constructor_group = Group.objects.get(name='constructor')
     client_group = Group.objects.get(name='client')
     if request.method == "POST":
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.customer = request.user
+        order_form = OrderForm(request.POST, user=request.user)
+        message_form = MessageForm(request.POST)
+        del order_form.fields['customers']
+        if order_form.is_valid() and message_form.is_valid():
+            message = message_form.save()
+            order = order_form.save(commit=False)
+            order.message = message
             order.save()
-    form = OrderForm()
+            order.customers.set([request.user])
+    else:
+        order_form = OrderForm(user=request.user)
+        message_form = MessageForm()
+        if check_user_group(request.user, 'client'):
+            del order_form.fields['customers']
 
-    return render(request, "main/home.html",
-                  {"form": form, 'constructor_group': constructor_group, 'client_group': client_group})
+    return render(request, "main/home.html", {
+        "order_form": order_form,
+        "message_form": message_form,
+        'constructor_group': constructor_group,
+        'client_group': client_group
+    })
 
 
 @login_required(login_url="login_page")
 def order(request, id):
     user = request.user
-    client_group = Group.objects.get(name='client')
     order = get_object_or_404(Order, id=id)
+    order_message = order.message
     if request.method == "POST":
-        form = OrderResponseForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
+        message_form = MessageForm(request.POST, instance=order_message)
+        order_form = OrderResponseForm(request.POST, instance=order)
+        if order_form.is_valid():
+            order_form.save()
+            message_form.save()
     else:
-        if client_group in user.groups.all():
-            form = OrderResponseForm(instance=order)
+        if check_user_group(user, 'client'):
+            message_form = MessageForm(instance=order_message)
+            order_form = OrderResponseForm(instance=order)
+            order.last_response_customer = user
+            del order_form.fields['customers']
+        elif check_user_group(user, 'constructor'):
+            message_form = MessageForm(instance=order_message)
+            order_form = OrderResponseForm(instance=order)
         else:
             return HttpResponse("YOU ARE NOT PERMITTED TO VIEW THIS SITE")
-    return render(request, 'main/orders.html ', {'order': order, 'form': form})
+    return render(request, 'main/orders.html ', {'order_form': order_form, 'message_form': message_form})
 
 
 @login_required(login_url="login_page")
@@ -58,6 +78,7 @@ def admin(request):
                     order.save()
                 return redirect('admin_panel')
         else:
+
             form = SendToConstructorForm()
         return render(request, 'main/admin_panel.html', {"form": form, 'orders': orders})
     else:
@@ -105,6 +126,10 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+
+            client_group = Group.objects.get(name='client')
+            client_group.user_set.add(user)
+
             login(request, user)
             return redirect('/')
     else:
@@ -126,9 +151,9 @@ def constructor_panel_view(request):
 
 
 @login_required(login_url="login_page")
-def client_messanger_view(request):
+def client_orders_panel(request):
     user = request.user
-    orders = Order.objects.filter(customer=user)
+    orders = Order.objects.filter(customers=user)
     client_group = Group.objects.get(name='client')
     if client_group in user.groups.all():
         if request.method == "POST":
