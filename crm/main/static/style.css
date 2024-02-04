@@ -1,0 +1,116 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Zapobiega przewijaniu poziomemu jeśli są nadmiarowe szerokości */
+
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100vw; /* Zapewnia pełną szerokość widoku, bez dodatkowych marginesów */
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    display: flex; /* Włącza flexbox w kontenerze */
+    flex-direction: column; /* Ustawia kierunek elementów w pionie */
+    align-items: center; /* Wycentrowuje elementy poziomo */
+    justify-content: flex-start; /* Jeśli chcesz wycentrować także w pionie, użyj 'center' */
+    background-color: rgba(80, 175, 166, 1);
+    background-image: linear-gradient(180deg, rgba(80, 175, 166, 1) 0%, rgba(51, 115, 94, 1) 100%);
+    width: 10%;
+    margin: 0;
+    padding: 0;
+}
+
+.top {
+    width: 100%;
+    height: 10%;
+    background-color: rgba(123, 224, 214, 1);
+    background-image: linear-gradient(90deg, rgba(123, 224, 214, 1) 0%, rgba(51, 115, 94, 1) 100%);
+
+    display: flex; /* Włącza flexbox */
+    justify-content: space-between; /* Wyrównuje tekst do prawej krawędzi */
+    align-items: center; /* Centruje tekst w pionie */
+    position: relative;
+    z-index: 1;
+
+}
+
+.content {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    flex-grow: 1; /* Dostosowuje się do dostępnej przestrzeni */
+    display: flex; /* Ustawia Flexbox */
+    justify-content: center; /* Centruje zawartość w poziomie */
+    horizontal-align: center; /* Centruje zawartość w pionie */
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.logged-in-div{
+    display: flex; /* Użyj flexboxa do ustawienia elementów w rzędzie */
+    align-items: center; /* Wycentruje elementy w pionie */
+    justify-content: flex-end; /* Jeśli chcesz elementy wyrównane do prawej */
+    color: white; /* Ustawia kolor tekstu dla wszystkich dzieci */
+
+}
+
+
+.spacer {
+    flex-grow: 1; /* Powoduje, że kontener wypełniający zajmuje dostępną przestrzeń */
+}
+
+.message-list-container-div {
+  display: flex; /* Użycie flexbox do zarządzania layoutem */
+}
+
+.message-list {
+  flex: 1; /* Każdy div zajmuje połowę przestrzeni */
+  overflow-y: auto; /* Dodaje suwak, jeśli zawartość jest zbyt długa */
+  margin-right: 10px; /* Odstęp między kolumnami */
+}
+
+.message-preview {
+  flex: 1; /* Każdy div zajmuje połowę przestrzeni */
+
+}
+
+.table-container {
+    max-height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse; /* Usuwa podwójne ramki */
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px; /* Dostosuj padding dla komórek */
+    border: 1px solid #ddd; /* Styl ramki komórek */
+  }
+
+  th {
+    background-color: #f2f2f2; /* Kolor tła dla nagłówków */
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9; /* Kolor tła dla parzystych wierszy */
+  }
+
+  tr:hover {
+    background-color: #e8f4ff; /* Kolor tła przy najechaniu myszką */
+  }

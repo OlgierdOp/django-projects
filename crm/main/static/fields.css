@@ -1,0 +1,7 @@
+.login-fields-div {
+    display: flex;            /* Włącza Flexbox */
+    flex-direction: column;   /* Ustawia elementy w pionie */
+    justify-content: center;  /* Centruje w pionie */
+    align-items: center;      /* Centruje w poziomie */
+    min-height: 100vh;        /* Minimalna wysokość równa wysokości okna przeglądarki */
+}

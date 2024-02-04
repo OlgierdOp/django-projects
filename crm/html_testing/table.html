@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href='main/static/main/testing.css'>
+  <style>
+  .table-container {
+    max-height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse; /* Usuwa podwójne ramki */
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px; /* Dostosuj padding dla komórek */
+    border: 1px solid #ddd; /* Styl ramki komórek */
+  }
+
+  th {
+    background-color: #f2f2f2; /* Kolor tła dla nagłówków */
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9; /* Kolor tła dla parzystych wierszy */
+  }
+
+  tr:hover {
+    background-color: #e8f4ff; /* Kolor tła przy najechaniu myszką */
+  }
+</style>
+</head>
+<body>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Tytuł</th>
+        <th>Nadawca</th>
+        <th>Data i godzina dostarczenia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Wypełnij tabelę danymi wiadomości -->
+      <tr>
+        <td>Tytuł wiadomości 1</td>
+        <td>Jan Kowalski</td>
+        <td>2024-02-03 10:00</td>
+      </tr>
+      <!-- Powtórz powyższy blok dla każdej wiadomości -->
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
