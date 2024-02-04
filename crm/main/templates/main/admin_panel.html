@@ -6,32 +6,34 @@
         <div class="table-container">
             <table>
                 <thead>
-                    <tr>
-                        <th>Wybierz</th>
-                        <th>Tytuł</th>
-                        <th>Nadawca</th>
-                        <th>Data i godzina dostarczenia</th>
-                    </tr>
+                <tr>
+                    <th>Wybierz</th>
+                    <th>Tytuł</th>
+                    <th>Nadawca</th>
+                    <th>Data i godzina dostarczenia</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for order in form.orders.field.queryset %}
-<tr>
-    <td>
-        <input type="checkbox" name="{{ form.orders.html_name }}" value="{{ order.pk }}" id="id_orders_{{ forloop.counter0 }}"
-            {% if order in form.orders.value %}
-               checked {% endif %}>
+                {% for order in form.orders.field.queryset %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="{{ form.orders.html_name }}" value="{{ order.pk }}"
+                               id="id_orders_{{ forloop.counter0 }}"
+                               {% if order in form.orders.value %}
+                               checked {% endif %}>
 
-    </td>
-    <td>{{ order.message.title }}</td>
-    <td>
-    {% for customer in order.customers.all %}
-            {{ customer.username }}
-            {% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </td>
-    <td>{{ order.date }}</td>
-</tr>
-{% endfor %}
+                    </td>
+                    <td>{{ order.message.title }}</td>
+                    <td>
+                        {% for response in last_responses %}
+                            {% if response.order_id == order.id %}
+                                {{ response.last_response_user }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ order.date }}</td>
+                </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

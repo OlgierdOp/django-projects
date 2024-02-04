@@ -1,12 +1,13 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from .forms import OrderForm, SendToConstructorForm, CustomUserCreationForm, OrderResponseForm, MessageForm
-from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import Group
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+
+from .forms import OrderForm, SendToConstructorForm, CustomUserCreationForm, OrderResponseForm, MessageForm
+from .models import Order, OrderResponseControl
 from .my_scripts import check_user_group
-from .models import Order, MyUser
 
 
 @login_required(login_url="login_page")
@@ -42,21 +43,26 @@ def order(request, id):
     user = request.user
     order = get_object_or_404(Order, id=id)
     order_message = order.message
+    order_response = OrderResponseControl(order=order, user=user)
     if request.method == "POST":
         message_form = MessageForm(request.POST, instance=order_message)
         order_form = OrderResponseForm(request.POST, instance=order)
         if order_form.is_valid():
             order_form.save()
             message_form.save()
+            order_response.save()
+            return HttpResponse("SUCCESS")
     else:
+
         if check_user_group(user, 'client'):
             message_form = MessageForm(instance=order_message)
             order_form = OrderResponseForm(instance=order)
-            order.last_response_customer = user
             del order_form.fields['customers']
+
         elif check_user_group(user, 'constructor'):
             message_form = MessageForm(instance=order_message)
             order_form = OrderResponseForm(instance=order)
+
         else:
             return HttpResponse("YOU ARE NOT PERMITTED TO VIEW THIS SITE")
     return render(request, 'main/orders.html ', {'order_form': order_form, 'message_form': message_form})
@@ -67,6 +73,15 @@ def admin(request):
     user = request.user
     admin_group = Group.objects.get(name='admin')
     orders = Order.objects.all()
+
+    last_responses = {}
+    for order in orders:
+        last_response = OrderResponseControl.objects.filter(order=order).last()
+        if last_response:
+            last_responses[order.id] = last_response.user.username
+        else:
+            last_responses[order.id] = "Brak odpowiedzi"
+
     if admin_group in user.groups.all():
         if request.method == "POST":
             form = SendToConstructorForm(request.POST)
@@ -80,7 +95,8 @@ def admin(request):
         else:
 
             form = SendToConstructorForm()
-        return render(request, 'main/admin_panel.html', {"form": form, 'orders': orders})
+        return render(request, 'main/admin_panel.html',
+                      {"form": form, 'orders': orders, 'last_responses': last_responses})
     else:
         return HttpResponse("You are not permitted to view this site")
 

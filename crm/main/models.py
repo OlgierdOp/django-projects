@@ -26,14 +26,30 @@ class File(models.Model):
     def __str__(self):
         return f"{self.file.name}"
 
+
+class OrderResponseControl(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    response_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['response_date']
+
+    def __str__(self):
+        return f"{self.user} responded to {self.order} on {self.response_date}"
+
+
+# OrderResponseControl enables to check who responded to order. Example last user that responded or first user
+
+
 class Order(models.Model):
-    last_response_customer = models.ManyToManyField(MyUser, related_name='last_response_customer', blank=True)
     customers = models.ManyToManyField(MyUser, related_name='customer_orders', blank=True, )
     constructor = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True, blank=True,
                                     related_name='constructor_tasks')
     message = models.ForeignKey(Message, on_delete=models.CASCADE, null=True)
     tag = models.ManyToManyField('Tag')
     date = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f"Order: {self.message} date: {self.date}"
 
