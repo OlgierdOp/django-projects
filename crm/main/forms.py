@@ -12,7 +12,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 class OrderForm(forms.ModelForm):
     tag = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
-    customers = forms.ModelChoiceField(
+    customers = forms.ModelMultipleChoiceField(
         queryset=MyUser.objects.filter(groups__name='client')
     )
 
@@ -29,6 +29,38 @@ class OrderForm(forms.ModelForm):
             self.fields['customers'].queryset = MyUser.objects.filter(pk=user.pk)
             self.fields['customers'].initial = user
             self.fields['customers'].required = False
+
+
+class OrderClientResponseForm(forms.ModelForm):
+    tag = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+    customers = forms.ModelMultipleChoiceField(
+        queryset=MyUser.objects.filter(groups__name='client')
+    )
+
+    class Meta:
+        model = Order
+        fields = ['tag']
+
+    def __init__(self, *args, **kwargs):
+        from main.my_scripts import check_user_group
+
+        user = kwargs.pop('user', None)
+        super(OrderClientResponseForm, self).__init__(*args, **kwargs)
+        if user and check_user_group(user, 'client'):
+            self.fields['customers'].queryset = MyUser.objects.filter(pk=user.pk)
+            self.fields['customers'].initial = user
+            self.fields['customers'].required = False
+
+
+class OrderConstructorResponseForm(forms.ModelForm):
+    tag = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+    customers = forms.ModelMultipleChoiceField(
+        queryset=MyUser.objects.filter(groups__name='client')
+    )
+
+    class Meta:
+        model = Order
+        fields = ['tag', 'customers']
 
 
 class MessageForm(forms.ModelForm):
@@ -67,4 +99,4 @@ class SendToConstructorForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
     )
 
-#testing
+# testing

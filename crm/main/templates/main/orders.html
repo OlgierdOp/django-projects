@@ -4,8 +4,13 @@
 
 <form method="POST">
     {%csrf_token%}
-    {{order_form.as_p}}
-    {{message_form.as_p}}
+    {% if client_order_form %}
+        {{client_order_form.as_p}}
+        {{client_message_form.as_p}}
+    {% elif constructor_order_form %}
+        {{constructor_message_form.as_p}}
+        {{constructor_order_form.as_p}}
+    {%endif%}
     <button type='submit'>Send</button>
 </form>
 {%endblock%}

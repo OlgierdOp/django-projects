@@ -5,7 +5,9 @@ from django.contrib.auth.models import Group
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import OrderForm, SendToConstructorForm, CustomUserCreationForm, OrderResponseForm, MessageForm
+from .forms import OrderForm, SendToConstructorForm, OrderConstructorResponseForm, OrderClientResponseForm, \
+    CustomUserCreationForm, \
+    OrderResponseForm, MessageForm
 from .models import Order, OrderResponseControl
 from .my_scripts import check_user_group
 
@@ -40,32 +42,69 @@ def home(request):
 
 @login_required(login_url="login_page")
 def order(request, id):
+
     user = request.user
     order = get_object_or_404(Order, id=id)
     order_message = order.message
     order_response = OrderResponseControl(order=order, user=user)
+
+    client_order_form = None
+    client_message_form = None
+    constructor_message_form = None
+    constructor_order_form = None
+
     if request.method == "POST":
-        message_form = MessageForm(request.POST, instance=order_message)
-        order_form = OrderResponseForm(request.POST, instance=order)
-        if order_form.is_valid():
-            order_form.save()
-            message_form.save()
-            order_response.save()
-            return HttpResponse("SUCCESS")
+
+        if check_user_group(user, 'client'):
+
+            client_message_form = MessageForm(request.POST, instance=order_message)
+            client_order_form = OrderClientResponseForm(request.POST, instance=order, user=user)
+
+            if client_order_form.is_valid() and client_message_form.is_valid():
+
+                client_order_form.save()
+                client_message_form.save()
+                order_response.save()
+                order.customers.set([user])
+                del client_order_form.fields['customers']
+                return HttpResponse("SUCCESS")
+
+        elif check_user_group(user, 'constructor'):
+
+            constructor_message_form = MessageForm(request.POST, instance=order_message)
+            constructor_order_form = OrderResponseForm(request.POST, instance=order, user=user)
+
+            if constructor_order_form.is_valid() and constructor_message_form.is_valid():
+
+                constructor_order_form.save()
+                constructor_message_form.save()
+                order_response.save()
+                del constructor_order_form.fields['customers']
+
+                return HttpResponse("SUCCESS")
     else:
 
         if check_user_group(user, 'client'):
-            message_form = MessageForm(instance=order_message)
-            order_form = OrderResponseForm(instance=order)
-            del order_form.fields['customers']
+
+            client_message_form = MessageForm(instance=order_message)
+            client_order_form = OrderClientResponseForm(instance=order)
+            del client_order_form.fields['customers']
 
         elif check_user_group(user, 'constructor'):
-            message_form = MessageForm(instance=order_message)
-            order_form = OrderResponseForm(instance=order)
+
+            constructor_message_form = MessageForm(instance=order_message)
+            constructor_order_form = OrderResponseForm(instance=order)
 
         else:
+
             return HttpResponse("YOU ARE NOT PERMITTED TO VIEW THIS SITE")
-    return render(request, 'main/orders.html ', {'order_form': order_form, 'message_form': message_form})
+
+    return render(request, 'main/orders.html ',
+                  {'client_order_form': client_order_form,
+                   'client_message_form': client_message_form,
+                   "constructor_message_form": constructor_message_form,
+                   'constructor_order_form': constructor_order_form
+                   })
 
 
 @login_required(login_url="login_page")
