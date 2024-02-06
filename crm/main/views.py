@@ -72,7 +72,7 @@ def order(request, id):
         elif check_user_group(user, 'constructor'):
 
             constructor_message_form = MessageForm(request.POST, instance=order_message)
-            constructor_order_form = OrderResponseForm(request.POST, instance=order, user=user)
+            constructor_order_form = OrderConstructorResponseForm(request.POST, instance=order)
 
             if constructor_order_form.is_valid() and constructor_message_form.is_valid():
 
