@@ -3,23 +3,6 @@ from django.db.models import Sum
 
 from shop.models import Item, OrderItem, Order
 
-
-def item_counter():
-    items = Item.objects.all()
-    items_counter = 0
-    for i in items:
-        items_counter += 1
-    return items_counter
-
-
-def user_counter():
-    users = User.objects.all()
-    users_counter = 0
-    for i in users:
-        users_counter += 1
-    return users_counter
-
-
 def sold_item_counter():
     sold_item = OrderItem.objects.all()
     every_sold_item = sold_item.aggregate(total=Sum('quantity'))

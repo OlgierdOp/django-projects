@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from .forms import CreateUserForm, CustomAuthenticationForm, OrderDataForm
 from .forms import ItemForm, AddToCartForm, TagsForm
-from .models import Item, Cart, CartItem, Order, OrderItem, Tags
+from .models import Item, Cart, CartItem, Order, OrderItem, Tags, User
 from .services import item_counter, user_counter, sold_item_counter, sold_item_sum
 
 
@@ -125,8 +125,8 @@ def admin_panel(request):
     else:
         if admin_group in user.groups.all():
             form = ItemForm()
-            users_number = user_counter()
-            items_number = item_counter()
+            users_number = User.objects.count()
+            items_number = Item.objects.count()
             sold_items_number = sold_item_counter()
             sold_items_sum = sold_item_sum()
 
